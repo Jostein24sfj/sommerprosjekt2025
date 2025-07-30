@@ -4,17 +4,6 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
-}
-
-body {
-  background-image: url("/solsystemChatGPT.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   overflow: hidden;
   font-family: sans-serif;
-}
-
-p {
-  font-style: white;
 }
