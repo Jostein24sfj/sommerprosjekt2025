@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import Header from "./assets/Header";
 
 const bgImageSrc = "/solsystemChatGPT.png";
 
-// These are Earth’s original position and size relative to the **full** background image dimensions
-// You can tweak these percentages for perfect alignment.
 const EARTH_POSITION = {
-  topPercent: 0.38, // 26% from top of full bg image
-  leftPercent: 0.443, // 40.5% from left of full bg image
-  widthPercent: 0.16, // 10% of bg image width
-  heightPercent: 0.26, // 20% of bg image height
+  topPercent: 0.38,
+  leftPercent: 0.443,
+  widthPercent: 0.16,
+  heightPercent: 0.26,
 };
 
 export default function App() {
@@ -26,7 +25,6 @@ export default function App() {
 
   const imgRef = useRef(null);
 
-  // On mount: update viewport size and background render size
   useEffect(() => {
     function updateSize() {
       setViewportSize({ width: window.innerWidth, height: window.innerHeight });
@@ -36,7 +34,6 @@ export default function App() {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  // On viewport size or image natural size change: calculate how bg image fits the viewport (background-size: cover)
   useEffect(() => {
     if (!imgRef.current) return;
 
@@ -49,13 +46,11 @@ export default function App() {
     let renderWidth, renderHeight, offsetX, offsetY;
 
     if (viewportRatio > imageRatio) {
-      // viewport is wider, image height fits viewport height, width crops
       renderHeight = viewportSize.height;
       renderWidth = imageRatio * renderHeight;
       offsetX = (viewportSize.width - renderWidth) / 2;
       offsetY = 0;
     } else {
-      // viewport is taller, image width fits viewport width, height crops
       renderWidth = viewportSize.width;
       renderHeight = renderWidth / imageRatio;
       offsetX = 0;
@@ -70,7 +65,6 @@ export default function App() {
     });
   }, [viewportSize]);
 
-  // Calculate Earth GIF position on screen based on bgRenderInfo and original percentages
   const earthStyle = {
     position: "absolute",
     top: bgRenderInfo.offsetY + bgRenderInfo.height * EARTH_POSITION.topPercent,
@@ -79,7 +73,7 @@ export default function App() {
     width: bgRenderInfo.width * EARTH_POSITION.widthPercent,
     height: bgRenderInfo.height * EARTH_POSITION.heightPercent,
     pointerEvents: "none",
-    transform: "translate(-50%, -50%)", // center on position
+    transform: "translate(-50%, -50%)",
     zIndex: 10,
   };
 
@@ -94,14 +88,12 @@ export default function App() {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}>
-      {/* Hidden img to get natural size */}
       <img
         src={bgImageSrc}
         alt="bg"
         ref={imgRef}
         style={{ display: "none" }}
         onLoad={() => {
-          // Trigger recalc on load
           setViewportSize({
             width: window.innerWidth,
             height: window.innerHeight,
@@ -109,24 +101,46 @@ export default function App() {
         }}
       />
 
-      {/* Earth GIF positioned dynamically */}
       <img src="/rotatingEarth.gif" alt="Rotating Earth" style={earthStyle} />
 
-      {/* Text overlay */}
       <div
+        className="flex flex-col"
         style={{
           position: "absolute",
-          bottom: 40,
           left: "50%",
           transform: "translateX(-50%)",
           color: "white",
           textAlign: "center",
           zIndex: 20,
         }}>
-        <p style={{ fontSize: "2.5rem", margin: 0 }}>Luminara Celestis</p>
-        <p style={{ fontSize: "1.25rem", fontFamily: "cursive", margin: 0 }}>
-          “The light of the heavens”
-        </p>
+        <Header />
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div className="bg-zinc-800 opacity-90">
+          <p className="flex">
+            Represents the shining sun and stars that light up our solar system,
+            giving energy and life to the planets, including Earth. It's like
+            the bright glow at the center of the cosmic dance, guiding
+            everything in space.
+          </p>
+        </div>
       </div>
     </div>
   );
