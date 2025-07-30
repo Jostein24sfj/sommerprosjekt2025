@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import Header from "./assets/Header";
+import Header from "./Header";
+import { IoMdRefresh } from "react-icons/io";
 
 const bgImageSrc = "/solsystemChatGPT.png";
 
@@ -22,6 +23,9 @@ export default function App() {
     offsetX: 0,
     offsetY: 0,
   });
+
+  const [showFact, setShowFact] = useState(false);
+  const [factIndex, setFactIndex] = useState(0);
 
   const imgRef = useRef(null);
 
@@ -66,7 +70,7 @@ export default function App() {
   }, [viewportSize]);
 
   const earthStyle = {
-    position: "absolute",
+    position: "fixed",
     top: bgRenderInfo.offsetY + bgRenderInfo.height * EARTH_POSITION.topPercent,
     left:
       bgRenderInfo.offsetX + bgRenderInfo.width * EARTH_POSITION.leftPercent,
@@ -77,17 +81,39 @@ export default function App() {
     zIndex: 10,
   };
 
+  const funFacts = [
+    "The Earth actually spins... would you look at that.",
+    "Earth’s rotation is gradually slowing, by about 17 milliseconds per century.",
+    "One day on Earth wasn't always 24 hours long!",
+    "The Earth’s core is as hot as the surface of the Sun.",
+  ];
+
+  const handleFactClick = () => {
+    if (!showFact) {
+      setShowFact(true);
+    } else {
+      setFactIndex((prevIndex) => (prevIndex + 1) % funFacts.length);
+    }
+  };
+
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-        position: "relative",
-        backgroundImage: `url(${bgImageSrc})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}>
+    <div className="relative w-screen min-h-screen overflow-auto">
+      {/* Fixed background */}
+      <div
+        style={{
+          backgroundImage: `url(${bgImageSrc})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: -2,
+        }}
+      />
+
+      {/* Hidden image used for dimension calculation */}
       <img
         src={bgImageSrc}
         alt="bg"
@@ -101,47 +127,41 @@ export default function App() {
         }}
       />
 
+      {/* Earth image fixed in place */}
       <img src="/rotatingEarth.gif" alt="Rotating Earth" style={earthStyle} />
 
-      <div
-        className="flex flex-col"
-        style={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-          color: "white",
-          textAlign: "center",
-          zIndex: 20,
-        }}>
-        <Header />
+      {/* Header */}
+      <Header />
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <div className="bg-zinc-800 opacity-90">
-          <p className="flex">
-            Represents the shining sun and stars that light up our solar system,
-            giving energy and life to the planets, including Earth. It's like
-            the bright glow at the center of the cosmic dance, guiding
-            everything in space.
+      {/* Fun Fact Section */}
+      <section className="relative z-20 min-h-screen flex flex-col justify-end items-center px-4 pb-24 space-y-10">
+        <button
+          onClick={handleFactClick}
+          className="flex items-center font-bold text-2xl px-10 py-2 text-white bg-transparent border border-white rounded hover:scale-105 transition-transform">
+          Did you know?
+          <div className="pl-1 text-3xl">
+            <IoMdRefresh />
+          </div>
+        </button>
+
+        {showFact && (
+          <p className="text-2xl text-white text-center max-w-3xl">
+            {funFacts[factIndex]}
+          </p>
+        )}
+      </section>
+
+      {/* Luminara Section */}
+      <section className="relative z-20 min-h-screen flex justify-center items-center px-4">
+        <div className="bg-zinc-800/70 backdrop-blur-sm opacity-90 p-6 rounded">
+          <p className="text-white text-2xl text-center">
+            Luminara Celestis represents the shining sun and stars that light up
+            our solar system, giving energy and life to the planets, including
+            Earth. It's like the bright glow at the center of the cosmic dance,
+            guiding everything in space.
           </p>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
