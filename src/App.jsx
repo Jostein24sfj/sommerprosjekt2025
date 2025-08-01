@@ -83,7 +83,7 @@ export default function App() {
 
   const funFacts = [
     "The Earth actually spins... would you look at that.",
-    "Earth’s rotation is gradually slowing, by about 17 milliseconds per century.",
+    "Earth’s rotation is gradually slowing, by about 17 ms per century.",
     "One day on Earth wasn't always 24 hours long!",
     "The Earth’s core is as hot as the surface of the Sun.",
   ];
